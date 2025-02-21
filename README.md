@@ -7,7 +7,7 @@ Cet atelier a pour objectif de vous apprendre à créer un système de cryptogra
 -------------------------------------------------------------------------------------------------------
 Séquence 1 : GitHUB
 -------------------------------------------------------------------------------------------------------
-Objectif : Création d'un Repository GitHUB pour travailler avec son projet  
+Objectif : Création d'un Repository GitHUB pour travailler avec son projet   
 Difficulté : Très facile (~10 minutes)
 -------------------------------------------------------------------------------------------------------
 GitHUB est une plateforme en ligne utilisée pour stocker le code de son programme.
