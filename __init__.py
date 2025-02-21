@@ -4,29 +4,31 @@ from flask import render_template
 from flask import json
 from urllib.request import urlopen
 import sqlite3
-                                                                                                                                       
-app = Flask(__name__)                                                                                                                  
-                                                                                                                                       
+                                                                                                                                   
+
+app = Flask(__name__)
+
 @app.route('/')
 def hello_world():
     return render_template('hello.html')
 
-key = Fernet.generate_key()
-f = Fernet(key)
+@app.route('/encrypt', methods=['POST'])
+def encryptage():
+    data = request.get_json()
+    cle = data.get('cle')
+    valeur = data.get('valeur')
+    f = Fernet(cle)
+    token = f.encrypt(valeur.encode())
+    return jsonify({"result": token.decode()})
 
-@app.route('/encrypt/<string:valeur>')
-def encryptage(valeur):
-    valeur_bytes = valeur.encode()  # Conversion str -> bytes
-    token = f.encrypt(valeur_bytes)  # Encrypt la valeur
-    return f"Valeur encryptée : {token.decode()}"  # Retourne le token en str
-
-@app.route('/decrypt/<string:token>')
-def decryptage(token):
-        token_bytes = token.encode()            
-        valeur_bytes = f.decrypt(token_bytes)    
-        valeur = valeur_bytes.decode()           
-        return f"Valeur décryptée : {valeur}"
-
+@app.route('/decrypt', methods=['POST'])
+def decryptage():
+    data = request.get_json()
+    cle = data.get('cle')
+    token = data.get('token')
+    f = Fernet(cle)
+    valeur = f.decrypt(token.encode()).decode()
+    return jsonify({"result": valeur})
 
 if __name__ == "__main__":
-  app.run(debug=True)
+    app.run(debug=True)
